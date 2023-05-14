@@ -1,0 +1,76 @@
+@import '~@fluentui/react/dist/sass/References.scss';
+
+a.link {
+  all: unset;
+  display: inline-block;
+  height: 56px;
+  text-decoration: none;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 56px;
+  color: #4A5359;
+  -webkit-transition: color 0.3s ease-out, background-color 0.3s ease-out;
+  -o-transition: color 0.3s ease-out, background-color 0.3s ease-out;
+  transition: color 0.3s ease-out, background-color 0.3s ease-out;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  &.link--block {
+    display: block;
+  }
+
+  &.link--white-text {
+    color: #fff;
+  }
+
+  &>svg+span,
+  &>span+svg {
+    margin-left: 16px;
+  }
+
+  &.link--ghost {
+    background-color: transparent;
+  }
+
+  &.link--white-bg {
+    background-color: #F0F3F3;
+    padding: 0 18px;
+
+    &:focus {
+      color: #4A5359;
+      background-color: #e5e5e5;
+    }
+  }
+
+  &:hover {
+    color: #DE411B;
+  }
+
+  &:focus {
+    background-color: #f0f3f3;
+  }
+
+  &.link--bordered {
+    background-color: transparent;
+    padding: 0 18px;
+    border: 1px solid #DE411B;
+    color: #DE411B;
+
+    &:hover,
+    &:focus {
+      background-color: #fdf5f4;
+    }
+  }
+
+  & svg.icon.icon--y-translated-3 {
+    -webkit-transform: translateY(3px);
+    -ms-transform: translateY(3px);
+    transform: translateY(3px);
+  }
+}
+
+.--no-action {
+  pointer-events: none;
+}

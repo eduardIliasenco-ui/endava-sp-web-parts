@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "e-link-block-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/eLinkBlock/ELinkBlockWebPart.js",
+          "manifest": "./src/webparts/eLinkBlock/ELinkBlockWebPart.manifest.json"
+        }
+      ]
+    },
+    "e-tile-block-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/eTileBlock/ETileBlockWebPart.js",
+          "manifest": "./src/webparts/eTileBlock/ETileBlockWebPart.manifest.json"
+        }
+      ]
+    },
+    "example-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/example/ExampleWebPart.js",
+          "manifest": "./src/webparts/example/ExampleWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ELinkBlockWebPartStrings": "lib/webparts/eLinkBlock/loc/{locale}.js",
+    "ETileBlockWebPartStrings": "lib/webparts/eTileBlock/loc/{locale}.js",
+    "ExampleWebPartStrings": "lib/webparts/example/loc/{locale}.js"
+  }
+}

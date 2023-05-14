@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "sp-component-solution-client-side-solution",
+    "id": "32ee66ad-a355-4147-b248-7a7cf0ea7374",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.17.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "sp-component-solution description"
+      },
+      "longDescription": {
+        "default": "sp-component-solution description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "sp-component-solution Feature",
+        "description": "The feature that activates elements of the sp-component-solution solution.",
+        "id": "f80f9248-80f7-4125-bdb5-bac84840e109",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/sp-component-solution.sppkg"
+  }
+}

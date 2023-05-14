@@ -1,0 +1,57 @@
+@import '../../icons/common-icon.module.scss';
+
+section.modal-icon-select__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(20, 20, 20, 0.4);
+    z-index: 100;
+
+    & section.modal-icon-select {
+        width: calc(100vw - 30px);
+        max-width: 800px;
+        height: calc(100vh - 30px);
+        max-height: 800px;
+        padding: 12px;
+        z-index: 101;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(20, 20, 20, 0.3), 0 0 3px rgba(20, 20, 20, 0.2);
+        box-sizing: border-box;
+
+        & .modal-icon-select__inner {
+            display: grid;
+            grid-template-columns: repeat(4, [col-start] minmax(40px, 1fr) [col-end]);
+            grid-auto-rows: minmax(80px, 1fr);
+            row-gap: 16px;
+            column-gap: 16px;
+            overflow-y: scroll;
+            max-height: 100%;
+        }
+
+        & button.modal-icon-select__select-option {
+            all: unset;
+            box-shadow: none;
+            background-color: #f0f3f3;
+            color: #4A5359;
+            cursor: pointer;
+            display: flex;
+            padding: 12px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+
+            & span.modal-icon-select__title {
+                margin-top: 16px;
+                font-weight: 700;
+                font-size: 18px;
+                font-style: normal;
+            }
+        }
+    }
+}
