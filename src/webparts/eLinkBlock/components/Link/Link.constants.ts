@@ -1,13 +1,13 @@
 import styles from './Link.module.scss';
+import iconStyles from '../../../../icons/style.module.scss';
+import commonIconStyles from '../../../../icons/common-icons.module.scss';
 
 export enum LinkVariants {
     Bordered = 'bordered',
     Background = 'background',
     GhostArrowRight = 'ghostArrowRight',
     GhostArrowLeft = 'ghostArrowLeft',
-    GhostCurlyArrowLeft = 'ghostCurlyArrowLeft',
     VerticalBlock = 'verticalBlock',
-    TranslatedIcon = 'translatedIcon',
 }
 
 export enum Target {
@@ -25,18 +25,30 @@ export const ghostArrowLeft = styles.link;
 
 export const ghostArrowRight = ghostArrowLeft;
 
-export const ghostCurlyArrowLeft = ghostArrowLeft;
-
 export const verticalBlock = [styles.link, styles['link--block']].join(' ');
 
-export const translatedIcon = [styles.link, styles['icon--y-translated-3']].join(' ');
+const rightArrow = [
+    iconStyles.icon,
+    iconStyles['icon-arrow-right'],
+    commonIconStyles['--font-size24']
+].join(' ');
+
+export const VARIANT_BASED_ICON = {
+    [LinkVariants.Bordered]: rightArrow,
+    [LinkVariants.Background]: rightArrow,
+    [LinkVariants.GhostArrowRight]: rightArrow,
+    [LinkVariants.VerticalBlock]: rightArrow,
+    [LinkVariants.GhostArrowLeft]: [
+        iconStyles.icon,
+        iconStyles['icon-curly-arrow'],
+        commonIconStyles['--font-size24']
+    ].join(' '),
+};
 
 export const classNames: Record<LinkVariants, string> = {
     bordered,
     background,
-    translatedIcon,
     ghostArrowLeft,
     ghostArrowRight,
-    ghostCurlyArrowLeft,
     verticalBlock,
 };

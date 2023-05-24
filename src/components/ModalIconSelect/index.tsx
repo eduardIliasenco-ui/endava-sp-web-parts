@@ -2,12 +2,13 @@ import React, { useMemo } from 'react';
 import styles from './ModalSelect.module.scss';
 import iconStyles from '../../icons/style.module.scss';
 import { IModalIconSelectProps } from './ModalIconSelect.types';
-import { IconVariant } from '../../icons/Icon.constants';
+import { IconVariant } from '../../icons/icons.constants';
 import { ReactElement } from 'react';
 
 const ModalIconSelect = ({ onSelect, onClose }: IModalIconSelectProps): ReactElement => {
     const options = useMemo(() => {
-        const keys = Object.keys(IconVariant);
+        const { IconArrowRight: _, IconCurlyArrow: _1, ...icons } = IconVariant;
+        const keys = Object.keys(icons);
 
         return keys.map((key: keyof typeof IconVariant) => (
             <button
@@ -15,14 +16,13 @@ const ModalIconSelect = ({ onSelect, onClose }: IModalIconSelectProps): ReactEle
                 onClick={(event) => {
                     event.preventDefault();
                     event.stopPropagation();
-                    onSelect?.(IconVariant[key]);
+                    onSelect?.(key);
                 }}
                 className={styles['modal-icon-select__select-option']}
             >
                 <div
-                    className={`${iconStyles.icon} ${styles['--font-size24']} ${IconVariant[key]}`}
+                    className={`${iconStyles.icon} ${styles['--font-size32']} ${IconVariant[key]}`}
                 />
-                <span className={styles['modal-icon-select__title']}>{key}</span>
             </button>
         ));
     }, [onSelect]);
@@ -30,6 +30,7 @@ const ModalIconSelect = ({ onSelect, onClose }: IModalIconSelectProps): ReactEle
     return (
         <section onClick={onClose} className={styles['modal-icon-select__wrapper']}>
             <section className={styles['modal-icon-select']}>
+                <h3>Select an icon</h3>
                 <div className={styles['modal-icon-select__inner']}>
                     {options}
                 </div>

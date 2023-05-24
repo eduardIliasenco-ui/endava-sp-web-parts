@@ -1,9 +1,15 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 import { TileVariant, classNames } from './Tile.constants';
 import { ITileWrapperProps } from './Tile.types';
 import styles from './Tile.module.scss';
 
-const TileWrapper = ({ url, variant, children, target, isEdit }: PropsWithChildren<ITileWrapperProps>) => {
+const TileWrapper = ({
+    url,
+    variant,
+    children,
+    target,
+    isEdit,
+}: PropsWithChildren<ITileWrapperProps>): ReactElement => {
     const className = isEdit ? `${classNames[variant]} ${styles['--no-action']}` : classNames[variant];
 
     switch (variant) {
@@ -17,7 +23,14 @@ const TileWrapper = ({ url, variant, children, target, isEdit }: PropsWithChildr
             );
         default:
             return (
-                <a target={target} href={url} className={className}>{children}</a>
+                <a
+                    tabIndex={0}
+                    target={target}
+                    href={url}
+                    className={className}
+                >
+                    {children}
+                </a>
             );
     }
 };

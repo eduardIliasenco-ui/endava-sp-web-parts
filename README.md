@@ -1,5 +1,70 @@
 # sp-component-solution
 
+#### Development
+- 'nvm install' 16.13.0
+- 'nvm alias default' 16.13.0
+- 'npm install yarn@1.22.19' - if not installed
+- 'yarn prepare:cert' - Creates dev certificate. Or (npm run prepare:dev)
+- 'yarn prepare:dev' - Creates dev certificate, installs you and gulp
+- 'yarn' - to install all the dependencies
+- 'yarn global add yo' or ('npm run prepare:dev')
+- 'yarn add:webpart' - Creates a Web Part
+- change "config/serve.json" to have - "initialPage": "https://endava.sharepoint.com/_layouts/15/workbench.aspx"
+- 'npm start'
+
+#### File naming
+- Components - "PascalCase"
+- Other files like utils, hekpers and so on - "kebab-case"
+- "*.constants.ts" - component related constants
+- "*.types.d.ts" - component related types and interfaces
+- "*.module.scss" - component related styles
+
+#### Icons
+'Stored in src/icons'
+Icons are generated with https://icomoon.io/app/#/select
+- Press "Import Icons"
+- Select icons from your computer
+- Press "Generate Font"
+- Press "Preferences"
+- - Select "Generate preprocessor variables for: SASS", use a class ".icon", font name "Endava-icons", class prefix "icon-"
+- Press download
+- Store "variables.scss", "style.scss" as "style.module.scss" and "fonts" folder in src/icons
+
+Note that icons.constants.ts contains all references to the icon class names. Use these constants to use icon styles or to add new.
+"common-icons.module.scss" contains all the custom styles related to the icons. Use this file to customize icons if it's needed.
+
+#### Common components
+'src/components' folder contains all the shared components between web parts.
+- IconSelect - is a block/wrapper that opens ModalIconSelect on click
+- ModalIconSelect - a modal window that contains a list of the icons (except arrows - for more details ask design team)
+- Text - text component that wraps text in "p" or in "span" (can be extended)
+
+#### API class
+'src/utils/API'
+API class consists of methods to retrieve data from the SH API or 3rd-parties.
+- GET getSitePages - this method retrieves site pages and caches them in a local storage. If pages were previously retrieved during the session, it'll pick them up from the cache.
+
+#### LocalStorage class
+'src/utils/LocalStorage'
+Implements localStorage functionality.
+
+### Web Parts
+#### eLinkBlock
+[Hish-level documentation](https://confluence.endava.com/display/RP/Link+Block+configuration)
+'src/webparts/eLinkBlock'
+Is a component that imoplements Link Block functionality.
+
+'src/webparts/eLinkBlock/components'
+- Link - A single link component
+- LinkGrid - Grid wrapper for a link
+
+'src/webparts/eLinkBlock/assets'
+Link related images
+
+'src/webparts/eLinkBlock/loc'
+Localisation related texts
+
+
 ## Summary
 
 Short summary on functionality and used technologies.

@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useState, ReactElement } from 'react';
 import { IIconSelectProps } from './IconSelect.types';
-import { IconVariant } from '../../icons/Icon.constants';
+import { IconVariant } from '../../icons/icons.constants';
 import ModalIconSelect from '../ModalIconSelect';
 
 const IconSelect = ({ onSelect, children }: PropsWithChildren<IIconSelectProps>): ReactElement => {
@@ -22,7 +22,7 @@ const IconSelect = ({ onSelect, children }: PropsWithChildren<IIconSelectProps>)
                 menuOpened &&
                 (
                     <ModalIconSelect
-                        onSelect={(value: typeof IconVariant) => {
+                        onSelect={(value: keyof typeof IconVariant) => {
                             onSelect?.(value);
                             setMenuOpened(false);
                         }}

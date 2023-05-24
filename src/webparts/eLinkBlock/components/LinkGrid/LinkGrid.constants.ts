@@ -8,6 +8,4 @@ export const ghostArrowRight = styles['link-wrapper'];
 
 export const ghostArrowLeft = styles['link-wrapper'];
 
-export const translatedIcon = styles['link-wrapper'];
-
 export const verticalBlock = '';

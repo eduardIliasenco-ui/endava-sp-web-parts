@@ -4,13 +4,25 @@ declare interface IELinkBlockWebPartStrings {
   LinkText: string;
   ImageUrl: string;
   Target: string;
+  TargetOn: string;
+  TargetOff: string;
   NumberOfLinks: string;
   ExternalLink: string;
   URL: string;
   Variant: string;
   verticalBlock: string;
   LinkGroupName: string;
+  CommonLinkConfig: string;
   InternalSiteLink: string;
+  SectionDescription: string;
+  bordered: string;
+  background: string;
+  ghostArrowRight: string;
+  ghostArrowLeft: string;
+  verticalBlock: string;
+  WhiteText: string;
+  Yes: string;
+  No: string;
 }
 
 declare module 'ELinkBlockWebPartStrings' {

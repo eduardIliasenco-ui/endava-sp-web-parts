@@ -3,7 +3,6 @@ import styles from './Tile.module.scss';
 export enum TileVariant {
     ArrowedText = 'arrowedText',
     IconText = 'iconText',
-    IconOnly = 'iconOnly',
     TextUnderCard = 'textUnderCard',
     TextAndButtonUnderCard = 'textAndButtonUnderCard',
 }
@@ -15,6 +14,7 @@ export enum TileFieldVariant {
     TileLinkText = 'tileLinkUrl',
     ImageUrl = 'imageUrl',
     IsExternalLink = 'isExternalLink',
+    IsThreeColumns = 'isThreeColumns',
     Target = 'target',
     TileIcon = 'tileIcon',
 }
@@ -22,8 +22,6 @@ export enum TileFieldVariant {
 export const arrowedText = [styles.card, styles['card--arrowed']].join(' ');
 
 export const iconText = styles.card;
-
-export const iconOnly = styles.card;
 
 export const textUnderCard = [styles.card, styles['card--figure'], styles['card--large']].join(' ');
 
@@ -41,7 +39,6 @@ export const CARDS_WITH_TEXT = [
 export const classNames = {
     arrowedText,
     iconText,
-    iconOnly,
     textUnderCard,
     textAndButtonUnderCard,
 };

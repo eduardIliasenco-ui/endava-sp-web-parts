@@ -7,4 +7,5 @@ export interface ILinkProps {
     target?: Target;
     variant?: LinkVariants;
     isEdit?: boolean;
+    isWhiteText?: boolean;
 }

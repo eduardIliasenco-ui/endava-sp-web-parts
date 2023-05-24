@@ -1,6 +1,6 @@
-import { IconVariant } from "../../icons/Icon.constants";
+import { IconVariant } from "../../icons/icons.constants";
 
 export interface IModalIconSelectProps {
-    onSelect: (value: iconVariant) => void;
+    onSelect: (value: keyof typeof IconVariant) => void;
     onClose: () => void;
 }

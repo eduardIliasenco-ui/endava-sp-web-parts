@@ -17,20 +17,11 @@
           "manifest": "./src/webparts/eTileBlock/ETileBlockWebPart.manifest.json"
         }
       ]
-    },
-    "example-web-part": {
-      "components": [
-        {
-          "entrypoint": "./lib/webparts/example/ExampleWebPart.js",
-          "manifest": "./src/webparts/example/ExampleWebPart.manifest.json"
-        }
-      ]
     }
   },
   "externals": {},
   "localizedResources": {
     "ELinkBlockWebPartStrings": "lib/webparts/eLinkBlock/loc/{locale}.js",
-    "ETileBlockWebPartStrings": "lib/webparts/eTileBlock/loc/{locale}.js",
-    "ExampleWebPartStrings": "lib/webparts/example/loc/{locale}.js"
+    "ETileBlockWebPartStrings": "lib/webparts/eTileBlock/loc/{locale}.js"
   }
 }

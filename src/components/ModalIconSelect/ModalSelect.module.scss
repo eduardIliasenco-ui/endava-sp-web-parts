@@ -1,4 +1,4 @@
-@import '../../icons/common-icon.module.scss';
+@import '../../icons/common-icons.module.scss';
 
 section.modal-icon-select__wrapper {
     display: flex;
@@ -13,6 +13,8 @@ section.modal-icon-select__wrapper {
     z-index: 100;
 
     & section.modal-icon-select {
+        display: flex;
+        flex-direction: column;
         width: calc(100vw - 30px);
         max-width: 800px;
         height: calc(100vh - 30px);
@@ -30,7 +32,6 @@ section.modal-icon-select__wrapper {
             row-gap: 16px;
             column-gap: 16px;
             overflow-y: scroll;
-            max-height: 100%;
         }
 
         & button.modal-icon-select__select-option {

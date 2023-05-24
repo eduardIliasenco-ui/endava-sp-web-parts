@@ -1,23 +1,25 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import {
+  IPropertyPaneChoiceGroupOption,
   IPropertyPaneConfiguration,
   IPropertyPaneDropdownOption,
-  IPropertyPaneField,
+  IPropertyPaneGroup,
   PropertyPaneCheckbox,
   PropertyPaneChoiceGroup,
   PropertyPaneDropdown,
   PropertyPaneHorizontalRule,
-  PropertyPaneTextField
+  PropertyPaneTextField,
+  PropertyPaneToggle
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'ELinkBlockWebPartStrings';
 import LinkGrid from './components/LinkGrid';
 import Link from './components/Link';
 import { LinkVariants, Target } from './components/Link/Link.constants';
-import API from '../../api/api';
+import API from '../../utils/API';
 import { ISitePage } from '../eTileBlock/ETileBlockWebPart.types';
-import { LinkFieldVariant } from './ELinkBlockWebPart.constants';
+import { LinkFieldVariant, linkVariantImages } from './ELinkBlockWebPart.constants';
 import { IELinkBlockWebPartProps } from './ELinkBlockWebPart.types';
 
 export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlockWebPartProps> {
@@ -26,20 +28,37 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
    */
   private _sitePages: ISitePage[] = [];
 
+  protected get sitePages(): ISitePage[] {
+    if (this._sitePages?.length) return this._sitePages;
+
+    this._sitePages = API.getSitePages(this.context);
+
+    return this._sitePages;
+  }
+
+  protected async onInit(): Promise<void> {
+    this.properties.variant = this.properties.variant || LinkVariants.Bordered;
+  }
+
   public render(): void {
-    const { numberOfLinks, ...linkConfig } = this.properties;
-    const links = (new Array(+numberOfLinks || 1).fill(0))
+    const { numberOfLinks = 0, ...linkConfig } = this.properties;
+    const limitedNumberOfLinks = +numberOfLinks < 99 ? numberOfLinks : 99;
+    const links = (new Array(+limitedNumberOfLinks || 0).fill(0))
       .map((_: unknown, index: number) => {
         const text = this._buildLinkPropName(index);
-        const target = this._buildLinkPropName(index, LinkFieldVariant.LinkTarget);
+        const isWhiteText = this.properties[this._buildLinkPropName(0, LinkFieldVariant.LinkWhiteText)];
+        const isCurrentWindow = this.properties[this._buildLinkPropName(index, LinkFieldVariant.LinkTarget)];
+        const target = isCurrentWindow ? Target.Self : Target.Blank;
         const url = this._buildLinkPropName(index, LinkFieldVariant.LinkUrl);
 
+        console.warn({ target })
         return (
           <Link
             variant={(this.properties.variant as LinkVariants)}
+            isWhiteText={!!isWhiteText}
             url={linkConfig[url]}
             key={`${index}-link`}
-            target={linkConfig[target] as Target}
+            target={target}
           >
             {linkConfig[text]}
           </Link>
@@ -58,7 +77,7 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
    * Retrieves sipe pages to render internal site URL options
    */
   protected async loadPropertyPaneResources(): Promise<void> {
-    this._sitePages = await API.getSitePages(this.context);
+    this._sitePages = this.sitePages;
   }
 
   /**
@@ -79,7 +98,7 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
    * @returns IPropertyPaneDropdownOption[]
    */
   protected buildLinkUrlOptions(): IPropertyPaneDropdownOption[] {
-    return this._sitePages.map(({ AbsoluteUrl, Title }, index: number) => ({
+    return this.sitePages.map(({ AbsoluteUrl, Title }, index: number) => ({
       key: AbsoluteUrl,
       text: Title,
       index,
@@ -106,40 +125,52 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
    * @param numberOfLinks 
    * @returns IPropertyPaneField<unknown>[]
    */
-  protected generateLinkConfigList(numberOfLinks: number): IPropertyPaneField<unknown>[] {
+  protected generateLinkConfigGroup(numberOfLinks: number): IPropertyPaneGroup[] {
     return (new Array(+numberOfLinks).fill(1))
       .reduce((previous, _, index) => {
         const internalLinkFieldName = this._buildLinkPropName(index, LinkFieldVariant.InternalLink);
         const linkUrlName = this._buildLinkPropName(index, LinkFieldVariant.LinkUrl);
         const target = this._buildLinkPropName(index, LinkFieldVariant.LinkTarget);
         const isInternalLink = this.properties[internalLinkFieldName];
-        const linkUrlLabel = `${strings.URL} ${index + 1}`;
+        const { sitePages } = this;
+        const isSite = !!sitePages?.length;
+        const internalLinkCheckbox = isSite
+          ? [
+            PropertyPaneCheckbox(
+              internalLinkFieldName,
+              {
+                text: strings.InternalSiteLink,
+                checked: false,
+              }
+            )
+          ]
+          : [];
 
         return [
           ...previous,
-          PropertyPaneHorizontalRule(),
-          PropertyPaneTextField(this._buildLinkPropName(index), {
-            label: `${strings.Text} ${index + 1}`,
-          }),
-          PropertyPaneCheckbox(
-            internalLinkFieldName,
-            {
-              text: strings.InternalSiteLink,
-              checked: false,
-            }
-          ),
-          PropertyPaneDropdown(target, {
-            label: strings.Target,
-            selectedKey: Target.Blank,
-            options: this.buildLinkTargetOptions(),
-          }),
-          isInternalLink ? PropertyPaneDropdown(linkUrlName, {
-            label: linkUrlLabel,
-            selectedKey: this._sitePages[0]?.AbsoluteUrl,
-            options: this.buildLinkUrlOptions(),
-          }) : PropertyPaneTextField(linkUrlName, {
-            label: linkUrlLabel,
-          }),
+          {
+            groupName: `${strings.LinkGroupName} #${index + 1}`,
+            groupFields: [
+              PropertyPaneTextField(this._buildLinkPropName(index), {
+                label: strings.Text,
+              }),
+              isInternalLink && isSite ? PropertyPaneDropdown(linkUrlName, {
+                label: strings.URL,
+                selectedKey: sitePages[0]?.AbsoluteUrl,
+                options: this.buildLinkUrlOptions(),
+              }) : PropertyPaneTextField(linkUrlName, {
+                label: strings.URL,
+              }),
+              ...internalLinkCheckbox,
+              PropertyPaneToggle(target, {
+                label: strings.Target,
+                onText: strings.Yes,
+                offText: strings.No,
+                checked: false,
+              }),
+              PropertyPaneHorizontalRule(),
+            ]
+          },
         ]
       }, []);
   }
@@ -148,13 +179,21 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
    * Generates select options for the variants
    * @returns 
    */
-  protected generateVariantSelect(): IPropertyPaneDropdownOption[] {
+  protected generateVariantSelect(): IPropertyPaneChoiceGroupOption[] {
     const linkVariants = Object.values(LinkVariants);
 
-    return linkVariants.map((linkVariant, index) => ({
-      text: linkVariant,
+    return linkVariants.map((linkVariant: LinkVariants, index: number) => ({
+      text: (strings as unknown as any)[linkVariant],
       key: linkVariant,
-      checked: !index,
+      checked: this.properties.variant
+        ? this.properties.variant === linkVariant
+        : !index,
+      imageSrc: linkVariantImages[linkVariant],
+      selectedImageSrc: linkVariantImages[linkVariant],
+      imageSize: {
+        width: 68,
+        height: 21,
+      },
     }));
   }
 
@@ -163,12 +202,13 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
    * @returns IPropertyPaneConfiguration
    */
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
+    const isWhiteText = this._buildLinkPropName(0, LinkFieldVariant.LinkWhiteText);
+
     return {
       pages: [
         {
           groups: [
             {
-              groupName: strings.LinkGroupName,
               groupFields: [
                 PropertyPaneTextField('numberOfLinks', {
                   label: strings.NumberOfLinks,
@@ -177,11 +217,18 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
                   label: strings.Variant,
                   options: this.generateVariantSelect(),
                 }),
-                ...this.generateLinkConfigList(+this.properties.numberOfLinks || 1),
+                PropertyPaneToggle(isWhiteText, {
+                  label: strings.WhiteText,
+                  onText: strings.Yes,
+                  offText: strings.No,
+                  checked: false,
+                }),
+                PropertyPaneHorizontalRule(),
               ]
-            }
+            },
+            ...this.generateLinkConfigGroup(+this.properties.numberOfLinks || 0),
           ]
-        }
+        },
       ]
     };
   }

@@ -1,5 +1,5 @@
-import { IconVariant } from "../../icons/Icon.constants";
+import { IconVariant } from "../../icons/icons.constants";
 
 export interface IIconSelectProps {
-    onSelect: (value: iconVariant) => vaoid;
+    onSelect: (value: keyof typeof IconVariant) => vaoid;
 }

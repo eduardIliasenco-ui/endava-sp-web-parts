@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { TileVariant } from './Tile.constants';
-import { IconVariant } from '../../../../icons/Icon.constants';
+import { IconVariant } from '../../../../icons/icons.constants';
 
 export interface ITileWrapperProps {
     url?: string;
@@ -15,7 +15,7 @@ export interface ITileProps {
     title?: string;
     imageUrl?: string;
     linkText?: string;
-    icon?: iconVariant;
+    icon?: keyof typeof IconVariant;
     variant?: TileVariant;
     target?: Target;
     isEdit?: boolean;

@@ -5,38 +5,55 @@ import {
   IPropertyPaneChoiceGroupOption,
   IPropertyPaneConfiguration,
   IPropertyPaneDropdownOption,
-  IPropertyPaneField,
+  IPropertyPaneGroup,
   PropertyPaneCheckbox,
   PropertyPaneChoiceGroup,
   PropertyPaneDropdown,
   PropertyPaneHorizontalRule,
-  PropertyPaneTextField
+  PropertyPaneTextField,
+  PropertyPaneToggle
 } from '@microsoft/sp-property-pane';
 import { update } from '@microsoft/sp-lodash-subset';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'ETileBlockWebPartStrings';
 import TileGrid from './components/TileGrid';
 import { CARDS_WITH_TEXT, CARDS_WITH_TITLE, TileFieldVariant, TileVariant } from './components/Tile/Tile.constants';
-import API from '../../api/api';
+import API from '../../utils/API';
 import Tile from './components/Tile';
-import { IconVariant } from '../../icons/Icon.constants';
+import { IconVariant } from '../../icons/icons.constants';
 import { Target } from '../eLinkBlock/components/Link/Link.constants';
 import { IETileBlockWebPartProps, ISitePage } from './ETileBlockWebPart.types';
+import { tileVariantImages, tileVariantNames } from './ETileBlockWebPart.constants';
+
 
 export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlockWebPartProps> {
   _sitePages: ISitePage[] = [];
 
+  protected get sitePages(): ISitePage[] {
+    if (this._sitePages?.length) return this._sitePages;
+
+    this._sitePages = API.getSitePages(this.context);
+
+    return this._sitePages;
+  }
+
+  protected async onInit(): Promise<void> {
+    this.properties.variant = this.properties.variant || TileVariant.ArrowedText;
+  }
+
   public render(): void {
-    const { variant } = this.properties;
-    const tiles = (new Array(+this.properties.numberOfTiles || 0).fill(0))
+    const { variant, numberOfTiles = 0 } = this.properties;
+    const limitedNumberOfLinks = +numberOfTiles < 99 ? numberOfTiles : 99;
+    const tiles = (new Array(+limitedNumberOfLinks || 0).fill(0))
       .map((_, index) => {
         const text = this.properties[this._buildTilePropName(index, TileFieldVariant.TileText)];
         const linkText = this.properties[this._buildTilePropName(index, TileFieldVariant.TileLinkText)];
         const imageUrl = this.properties[this._buildTilePropName(index, TileFieldVariant.ImageUrl)];
         const tileUrl = this.properties[this._buildTilePropName(index, TileFieldVariant.TileUrl)];
         const title = this.properties[this._buildTilePropName(index, TileFieldVariant.TileTitle)];
-        const target = this.properties[this._buildTilePropName(index, TileFieldVariant.Target)];
-        const iconFieldName = this._buildTilePropName(index, TileFieldVariant.TileIcon)
+        const isCurrentTab = this.properties[this._buildTilePropName(index, TileFieldVariant.Target)];
+        const target = isCurrentTab ? Target.Self : Target.Blank;
+        const iconFieldName = this._buildTilePropName(index, TileFieldVariant.TileIcon);
 
         return (
           <Tile
@@ -48,13 +65,23 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
             imageUrl={imageUrl}
             linkText={linkText}
             key={`tile-${index}`}
-            icon={this.properties[iconFieldName]}
+            icon={this.properties[iconFieldName] as keyof typeof IconVariant}
             isEdit={this.displayMode === DisplayMode.Edit}
             onIconSelect={(value) => this.updatePropertyValue(iconFieldName, value)}
           />
         )
       })
-    const element = <TileGrid variant={variant}>{tiles}</TileGrid>;
+
+    const isIconText = this.properties.variant === TileVariant.IconText;
+    const columns = isIconText && this.properties[this._buildTilePropName(0, TileFieldVariant.IsThreeColumns)] ? 3 : 0;
+    const element = (
+      <TileGrid
+        columns={columns}
+        variant={variant}
+      >
+        {tiles}
+      </TileGrid>
+    );
 
     ReactDom.render(element, this.domElement);
   }
@@ -76,7 +103,7 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
    * Loads all the needed date for the Web Part configuration panel
    */
   protected async loadPropertyPaneResources(): Promise<void> {
-    this._sitePages = await API.getSitePages(this.context);
+    this._sitePages = this.sitePages;
   }
 
   protected onDispose(): void {
@@ -87,7 +114,7 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
    * Builds link option list for PropertyPaneDropdown from this._sitePages data
    */
   protected buildLinkUrlOptions(): IPropertyPaneDropdownOption[] {
-    return this._sitePages
+    return this.sitePages
       .map(({ AbsoluteUrl, Title }, index: number) => ({
         key: AbsoluteUrl,
         text: Title,
@@ -128,7 +155,7 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
    * @param numberOfTiles 
    * @returns list of fields
    */
-  protected generateTileConfigList(numberOfTiles: number): IPropertyPaneField<unknown>[] {
+  protected generateTileConfigList(numberOfTiles: number): IPropertyPaneGroup[] {
     return (new Array(+numberOfTiles).fill(1))
       .reduce((previous, _, index) => {
         const tileText = this._buildTilePropName(index, TileFieldVariant.TileText);
@@ -138,50 +165,74 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
         const isExternalLink = this._buildTilePropName(index, TileFieldVariant.IsExternalLink);
         const linkTarget = this._buildTilePropName(index, TileFieldVariant.Target);
         const tileTitle = this._buildTilePropName(index, TileFieldVariant.TileTitle);
-        const tileUrlLabel = `${strings.URL} ${index + 1}`;
         const isCardWithTitle = CARDS_WITH_TITLE.includes(this.properties.variant);
         const isCardWithText = CARDS_WITH_TEXT.includes(this.properties.variant);
         const isCartWithButton = this.properties.variant === TileVariant.TextAndButtonUnderCard;
         const title = isCardWithTitle
           ? [PropertyPaneTextField(tileTitle, {
-            label: `${strings.Title} ${index + 1}`,
+            label: strings.Title,
           })] : [];
         const linkText = isCartWithButton ? [
           PropertyPaneTextField(tileLinkText, {
-            label: `${strings.LinkText} ${index + 1}`,
+            label: strings.LinkText,
           })
         ] : [];
         const imageUrl = this.properties.variant === TileVariant.TextAndButtonUnderCard ? [
           PropertyPaneTextField(imageUrlName, {
-            label: `${strings.ImageUrl} ${index + 1}`,
+            label: strings.ImageUrl,
           })] : [];
         const text = isCardWithText ? [PropertyPaneTextField(tileText, {
-          label: `${strings.Text} ${index + 1}`,
+          label: strings.Text,
         })] : [];
+        const isSite = !!this.sitePages?.length;
+        const externalLinkCheckbox = isSite ?
+          [
+            PropertyPaneCheckbox(isExternalLink, {
+              text: strings.ExternalLink,
+              checked: false,
+            })
+          ]
+          : [];
+        const targetCheckbox = this.properties.variant === TileVariant.TextUnderCard ?
+          []
+          : [PropertyPaneToggle(linkTarget, {
+            label: strings.Target,
+            onText: strings.Yes,
+            offText: strings.No,
+            checked: false,
+          })];
+        const urlField = !this.properties[isExternalLink] && isSite ?
+          [
+            PropertyPaneDropdown(tileUrl, {
+              label: isCartWithButton ? strings.LinkURL : strings.URL,
+              selectedKey: this.sitePages[0]?.AbsoluteUrl,
+              options: this.buildLinkUrlOptions(),
+            })
+          ]
+          : [
+            PropertyPaneTextField(tileUrl, {
+              label: strings.URL,
+            })
+          ];
+        const showUrl = this.properties.variant === TileVariant.TextUnderCard ?
+          []
+          : urlField;
 
         return [
           ...previous,
-          PropertyPaneHorizontalRule(),
-          ...title,
-          ...text,
-          PropertyPaneCheckbox(isExternalLink, {
-            text: strings.ExternalLink,
-            checked: false,
-          }),
-          this.properties[isExternalLink] ? PropertyPaneTextField(tileUrl, {
-            label: tileUrlLabel,
-          }) : PropertyPaneDropdown(tileUrl, {
-            label: tileUrlLabel,
-            selectedKey: this._sitePages[0]?.AbsoluteUrl,
-            options: this.buildLinkUrlOptions(),
-          }),
-          PropertyPaneDropdown(linkTarget, {
-            label: strings.Target,
-            selectedKey: Target.Blank,
-            options: this.buildLinkTargetOptions(),
-          }),
-          ...imageUrl,
-          ...linkText,
+          {
+            groupName: `${strings.TileGroupName} #${index + 1}`,
+            groupFields: [
+              ...imageUrl,
+              ...title,
+              ...text,
+              ...linkText,
+              ...showUrl,
+              ...externalLinkCheckbox,
+              ...targetCheckbox,
+              PropertyPaneHorizontalRule(),
+            ],
+          },
         ]
       }, []);
   }
@@ -193,20 +244,37 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
   protected generateVariantSelect(): IPropertyPaneChoiceGroupOption[] {
     const linkVariants = Object.values(TileVariant);
 
-    return linkVariants.map((linkVariant, index) => ({
-      text: linkVariant,
-      key: linkVariant,
-      checked: !index,
+    return linkVariants.map((tileVariant, index) => ({
+      text: (tileVariantNames as any)[tileVariant],
+      key: tileVariant,
+      checked: this.properties.variant
+        ? this.properties.variant === tileVariant
+        : !index,
+      imageSize: {
+        width: 58,
+        height: 36,
+      },
+      imageSrc: tileVariantImages[tileVariant],
+      selectedImageSrc: tileVariantImages[tileVariant],
     }));
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
+    const is3ColumnsName = this._buildTilePropName(0, TileFieldVariant.IsThreeColumns);
+    const is3ColumnsField = this.properties.variant === TileVariant.ArrowedText
+      ? [
+        PropertyPaneToggle(is3ColumnsName, {
+          label: strings.ThreeColumnsLabel,
+          onText: strings.Yes,
+          offText: strings.No,
+        }),
+      ] : [];
+
     return {
       pages: [
         {
           groups: [
             {
-              groupName: strings.TileGroupName,
               groupFields: [
                 PropertyPaneTextField('numberOfTiles', {
                   label: strings.NumberOfTiles,
@@ -215,9 +283,11 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
                   label: strings.Variant,
                   options: this.generateVariantSelect(),
                 }),
-                ...this.generateTileConfigList(+this.properties.numberOfTiles || 1),
+                ...is3ColumnsField,
+                PropertyPaneHorizontalRule(),
               ]
-            }
+            },
+            ...this.generateTileConfigList(+this.properties.numberOfTiles || 0),
           ]
         }
       ]

@@ -77,5 +77,6 @@ export interface ISitePage {
 export interface IETileBlockWebPartProps {
   numberOfTiles: string;
   variant: TileVariant;
+  is3ColumnsField: boolean;
   [key: string]: string;
 }
