@@ -177,7 +177,7 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
             label: strings.LinkText,
           })
         ] : [];
-        const imageUrl = this.properties.variant === TileVariant.TextAndButtonUnderCard ? [
+        const imageUrl = isCartWithButton ? [
           PropertyPaneTextField(imageUrlName, {
             label: strings.ImageUrl,
           })] : [];
@@ -211,7 +211,7 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
           ]
           : [
             PropertyPaneTextField(tileUrl, {
-              label: strings.URL,
+              label: isCartWithButton ? strings.LinkURL : strings.URL,
             })
           ];
         const showUrl = this.properties.variant === TileVariant.TextUnderCard ?

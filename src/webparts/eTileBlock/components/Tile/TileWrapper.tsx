@@ -9,25 +9,35 @@ const TileWrapper = ({
     children,
     target,
     isEdit,
+    disabled,
 }: PropsWithChildren<ITileWrapperProps>): ReactElement => {
     const className = isEdit ? `${classNames[variant]} ${styles['--no-action']}` : classNames[variant];
+    const classNameAnchorCard = disabled ? `${className} ${styles['--disabled']}` : className;
 
     switch (variant) {
         case TileVariant.TextAndButtonUnderCard:
             return (
-                <figure className={classNames.textAndButtonUnderCard}>{children}</figure>
+                <figure
+                    className={classNames.textAndButtonUnderCard}
+                >
+                    {children}
+                </figure>
             );
         case TileVariant.TextUnderCard:
             return (
-                <figure className={classNames.textUnderCard}>{children}</figure>
+                <figure
+                    className={classNames.textUnderCard}
+                >
+                    {children}
+                </figure>
             );
         default:
             return (
                 <a
+                    href={url}
                     tabIndex={0}
                     target={target}
-                    href={url}
-                    className={className}
+                    className={classNameAnchorCard}
                 >
                     {children}
                 </a>

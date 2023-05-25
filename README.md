@@ -1,6 +1,7 @@
 # sp-component-solution
 
-#### Development
+[Tech notes](https://confluence.endava.com/pages/viewpage.action?pageId=250224798)
+### Development
 - 'nvm install' 16.13.0
 - 'nvm alias default' 16.13.0
 - 'npm install yarn@1.22.19' - if not installed
@@ -12,14 +13,17 @@
 - change "config/serve.json" to have - "initialPage": "https://endava.sharepoint.com/_layouts/15/workbench.aspx"
 - 'npm start'
 
-#### File naming
+#### Issues
+- If you run `yarn start` and code changes are not applied - remove dist/, list/, release/ and run `yarn start` again
+
+### File naming
 - Components - "PascalCase"
 - Other files like utils, hekpers and so on - "kebab-case"
 - "*.constants.ts" - component related constants
 - "*.types.d.ts" - component related types and interfaces
 - "*.module.scss" - component related styles
 
-#### Icons
+### Icons
 'Stored in src/icons'
 Icons are generated with https://icomoon.io/app/#/select
 - Press "Import Icons"

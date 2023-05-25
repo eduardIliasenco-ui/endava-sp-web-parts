@@ -11,6 +11,7 @@ import IconSelect from '../../../../components/IconSelect';
 import Link from '../../../eLinkBlock/components/Link';
 import Text from '../../../../components/Text';
 import { TextWeight } from '../../../../components/Text/Text.constants';
+import commonIconStyles from '../../../../icons/common-icons.module.scss';
 
 const Tile = ({
     linkText,
@@ -38,8 +39,8 @@ const Tile = ({
                         >
                             {text}
                         </Text>
-                        <div
-                            className={`${iconStyles.icon} ${styles['--font-size24']} ${iconStyles['icon-arrow-right']}`}
+                        <i
+                            className={`${iconStyles.icon} ${commonIconStyles['--font-size24']} ${iconStyles['icon-arrow-right']}`}
                         />
                     </TileInner>
                 );
@@ -50,12 +51,12 @@ const Tile = ({
                             {
                                 isEdit ? (
                                     <IconSelect onSelect={onIconSelect}>
-                                        <div
-                                            className={`${iconStyles.icon} ${styles['--font-size32']} ${iconValue}`}
+                                        <i
+                                            className={`${iconStyles.icon} ${commonIconStyles['--font-size32']} ${iconValue}`}
                                         />
                                     </IconSelect>
-                                ) : <div
-                                    className={`${iconStyles.icon} ${styles['--font-size32']} ${iconValue}`}
+                                ) : <i
+                                    className={`${iconStyles.icon} ${commonIconStyles['--font-size32']} ${iconValue}`}
                                 />
                             }
                         </div>
@@ -76,9 +77,9 @@ const Tile = ({
                                 {
                                     isEdit ? (
                                         <IconSelect onSelect={onIconSelect}>
-                                            <div className={`${iconStyles.icon} ${styles['--font-size68']} ${iconValue}`} />
+                                            <i className={`${iconStyles.icon} ${commonIconStyles['--font-size68']} ${iconValue}`} />
                                         </IconSelect>
-                                    ) : <div className={`${iconStyles.icon} ${styles['--font-size68']} ${iconValue}`} />
+                                    ) : <i className={`${iconStyles.icon} ${commonIconStyles['--font-size68']} ${iconValue}`} />
                                 }
                             </div>
                         </TileInner>
@@ -129,7 +130,13 @@ const Tile = ({
     }, [variant, text, title, target, icon, url, linkText, imageUrl, onIconSelect]);
 
     return (
-        <TileWrapper target={target} url={url} variant={variant} isEdit={isEdit}>
+        <TileWrapper
+            url={url}
+            target={target}
+            isEdit={isEdit}
+            variant={variant}
+            disabled={!text || !url}
+        >
             {tyleInner}
         </TileWrapper>
     );

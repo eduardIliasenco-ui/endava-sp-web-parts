@@ -36,9 +36,16 @@ const Link = ({
         return elements;
     }, [children, text, url, variant, isWhiteText, TargetOff]);
     const className = isEdit ? `${classNames[variant]} ${styles['--no-action']}` : classNames[variant];
+    const classNameDisabled = (text || children) && url ? className : `${className} ${styles['--disabled']}`;
 
     return (
-        <a tabIndex={0} className={className} href={url} rel={rel} target={target}>
+        <a
+            tabIndex={0}
+            className={classNameDisabled}
+            href={url}
+            rel={rel}
+            target={target}
+        >
             {elements}
         </a>
     );

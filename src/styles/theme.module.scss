@@ -1,0 +1,33 @@
+// Theme styles
+
+$link_text_color: #4A5359; // Link text color
+$link_disabled_text_color: #A0B3BC; // Link disabled text color
+$link_disabled_border_color: #A0B3BC; // Link disabled border color
+$link_red_text_color: #DE411B; // Red bordered Link text color
+$link_red_border_color: $link_red_text_color; // Border color /by default the same as $link_red_text_color
+$link_background_color: #e5e5e5; // Common Link background color
+$link_white_background_color: #F0F3F3; // White button background color
+$link_focus_hover_background_color: #F0F3F3; // Link with bacground border color
+$link_border_focus_background_color: #fdf5f4; // Link with border background color on focus
+$link_common_focus_background_color: $link_white_background_color; // Common link background color on focus
+$link_dark_focus_background_color: #e5e5e5;
+
+$card_title_color: #000000; // Card title color
+$card_text_color: #253136; // Card text (description) color
+$link_disabled_text_color: #A0B3BC; // Link disabled text color
+$card_icon_color: #DE411B; // Card Icon color
+$card_hover_text_color: $card_icon_color; // Card Text color on hover
+$card_disabled_text_color: $card_icon_color; // Card Text color 
+$card_dark_text_color: #000000; // Card Text dark color
+$card_hover_dark_text_color: $card_dark_text_color; // Common Card background color on hover
+$card_background_color: #F0F3F3; // Card background color
+
+$link_height: 56px; // Link height and line-height
+$link_font_size: 16px; // Link font size
+$link_font_weight: 700; // Link font weight
+$link_icon_text_gap: 24px; // Defines the gap between text and icon
+$link_column_grid_gap: 24px; // Defines the gap between Link columns
+$link_row_grid_gap: 16px; // Defines the gap between Link rows
+
+$card_column_grid_gap: 24px; // Defines the gap between Card columns
+$card_row_grid_gap: 16px; // Defines the gap between Card rows

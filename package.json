@@ -10,11 +10,12 @@
   "main": "lib/index.js",
   "scripts": {
     "prepare:cert": "gulp trust-dev-cert",
-    "prepare:dev": "npm run prepare:cert && npm install -g yo gulp",
+    "prepare:dev": "yarn prepare:cert && yarn global add yo gulp",
     "build:production": "gulp bundle && gulp package-solution",
-    "start": "gulp serve",
+    "build:dev": "gulp build",
+    "start": "yarn build:dev && gulp serve",
     "add:webpart": "yo @microsoft/sharepoint",
-    "build": "gulp bundle",
+    "bundle": "gulp bundle",
     "clean": "gulp clean",
     "test": "gulp test"
   },

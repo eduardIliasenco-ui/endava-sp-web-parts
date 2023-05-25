@@ -3,27 +3,35 @@
   "id": "29772d5e-df82-4c70-9cfa-2632984404f5",
   "alias": "Link Block",
   "componentType": "WebPart",
-
   // The "*" signifies that the version should be taken from the package.json
   "version": "*",
   "manifestVersion": 2,
-
   // If true, the component can only be installed on sites where Custom Script is allowed.
   // Components that allow authors to embed arbitrary script code should set this to true.
   // https://support.office.com/en-us/article/Turn-scripting-capabilities-on-or-off-1f2c515f-5d7e-448a-9fd7-835da935584f
   "requiresCustomScript": false,
-  "supportedHosts": ["SharePointWebPart", "TeamsPersonalApp", "TeamsTab", "SharePointFullPage"],
+  "supportedHosts": [
+    "SharePointWebPart",
+    "TeamsPersonalApp",
+    "TeamsTab",
+    "SharePointFullPage"
+  ],
   "supportsThemeVariants": true,
-
-  "preconfiguredEntries": [{
-    "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Advanced
-    "group": { "default": "Advanced" },
-    "title": { "default": "Link Block" },
-    "description": { "default": "ELinkBlock description" },
-    "officeFabricIconFontName": "Page",
-    "iconImageUrl": "./assets/endava-custom-link-block.png",
-    "properties": {
-      "description": "ELinkBlock"
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Advanced
+      "group": {
+        "default": "Advanced"
+      },
+      "title": {
+        "default": "Link Block"
+      },
+      "description": {
+        "default": "Link Block is a set of links where the number of links can vary from 1 to 99"
+      },
+      "officeFabricIconFontName": "Page",
+      "iconImageUrl": "./assets/endava-custom-link-block.png",
+      "properties": {}
     }
-  }]
+  ]
 }

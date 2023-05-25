@@ -1,13 +1,13 @@
+@import '../../../../styles/theme.module.scss';
+
 section.card-wrapper,
 div.card-wrapper {
     display: -ms-grid;
     display: grid;
     grid-template-columns: repeat(2, [col-start] minmax(10px, 1fr) [col-end]);
     grid-auto-rows: minmax(136px, 1fr);
-    row-gap: 16px;
-    -webkit-column-gap: 24px;
-    -moz-column-gap: 24px;
-    column-gap: 24px;
+    row-gap: $card_row_grid_gap;
+    column-gap: $card_column_grid_gap;
 
     &.card-wrapper--arrowed {
         grid-auto-rows: minmax(200px, auto);

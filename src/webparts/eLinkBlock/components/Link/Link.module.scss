@@ -1,22 +1,23 @@
-@import '~@fluentui/react/dist/sass/References.scss';
+@import '../../../../styles/theme.module.scss';
 
 a.link {
   all: unset;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  height: 56px;
+  height: $link_height;
   text-decoration: none;
   font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 56px;
+  font-weight: $link_font_weight;
+  font-size: $link_font_size;
+  line-height: $link_height;
   transition: color 0.3s ease-out, background-color 0.3s ease-out;
   box-sizing: border-box;
   cursor: pointer;
 
-  & > span, & > p {
-    color: #4A5359;
+  &>span,
+  &>p {
+    color: $link_text_color;
     transition: color 0.3s ease-out;
   }
 
@@ -34,40 +35,47 @@ a.link {
   }
 
   &.link--white-bg {
-    background-color: #F0F3F3;
+    background-color: $link_white_background_color;
     padding: 0 18px;
 
-    &:focus, &:focus-visible {
-      & > span, & > p {
-        color: #4A5359;
+    &:focus,
+    &:focus-visible {
+
+      &>span,
+      &>p {
+        color: $link_text_color;
       }
 
-      background-color: #e5e5e5;
+      background-color: $link_dark_focus_background_color;
     }
   }
 
   &:hover {
-    & > span, & > p {
-      color: #DE411B;
+
+    &>span,
+    &>p {
+      color: $link_red_text_color;
     }
   }
 
-  &:focus, &:focus-visible {
-    background-color: #f0f3f3;
+  &:focus,
+  &:focus-visible {
+    background-color: $link_common_focus_background_color;
   }
 
   &.link--bordered {
     background-color: transparent;
     padding: 0 18px;
-    border: 1px solid #DE411B;
+    border: 1px solid $link_red_border_color;
 
-    & > span, & > p {
-      color: #DE411B;
+    &>span,
+    &>p {
+      color: $link_red_text_color;
     }
 
     &:hover,
     &:focus {
-      background-color: #fdf5f4;
+      background-color: $link_border_focus_background_color;
     }
   }
 
@@ -75,6 +83,23 @@ a.link {
     -webkit-transform: translateY(3px);
     -ms-transform: translateY(3px);
     transform: translateY(3px);
+  }
+
+  &.--disabled,
+  &.link--white-bg.--disabled {
+    pointer-events: none !important;
+    color: $link_disabled_text_color !important;
+    border-color: $link_disabled_border_color !important;
+    cursor: not-allowed !important;
+
+    & svg,
+    & i[class^="icon"],
+    & i[class^="icon"]::before,
+    & p,
+    & span {
+      fill: $link_disabled_text_color !important;
+      color: $link_disabled_text_color !important;
+    }
   }
 }
 

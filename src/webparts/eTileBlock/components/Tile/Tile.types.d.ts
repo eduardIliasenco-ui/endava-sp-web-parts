@@ -7,6 +7,7 @@ export interface ITileWrapperProps {
     variant: TileVariant;
     target?: Target;
     isEdit?: boolean;
+    disabled?: boolean;
 }
 
 export interface ITileProps {

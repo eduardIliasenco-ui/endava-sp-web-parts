@@ -1,3 +1,5 @@
+import { TileVariant } from './components/Tile/Tile.constants';
+
 export interface IPageMetaData {
     id: string;
     uri: string;
