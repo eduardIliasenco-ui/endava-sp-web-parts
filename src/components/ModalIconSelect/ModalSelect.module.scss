@@ -12,6 +12,11 @@ section.modal-icon-select__wrapper {
     background-color: rgba(20, 20, 20, 0.4);
     z-index: 100;
 
+    & div.modal-icon__header {
+        display: flex;
+        justify-content: space-between;
+    }
+
     & section.modal-icon-select {
         display: flex;
         flex-direction: column;

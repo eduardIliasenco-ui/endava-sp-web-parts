@@ -41,9 +41,8 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
   }
 
   public render(): void {
-    const { numberOfLinks = 0, ...linkConfig } = this.properties;
-    const limitedNumberOfLinks = +numberOfLinks < 99 ? numberOfLinks : 99;
-    const links = (new Array(+limitedNumberOfLinks || 0).fill(0))
+    const { variant, ...linkConfig } = this.properties;
+    const links = (new Array(this.getMaxFieldNumber()).fill(0))
       .map((_: unknown, index: number) => {
         const text = this._buildLinkPropName(index);
         const isWhiteText = this.properties[this._buildLinkPropName(0, LinkFieldVariant.LinkWhiteText)];
@@ -51,7 +50,6 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
         const target = isCurrentWindow ? Target.Self : Target.Blank;
         const url = this._buildLinkPropName(index, LinkFieldVariant.LinkUrl);
 
-        console.warn({ target })
         return (
           <Link
             variant={(this.properties.variant as LinkVariants)}
@@ -64,11 +62,18 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
           </Link>
         );
       });
-    const element = (
-      <LinkGrid variant={this.properties.variant}>
-        {links}
-      </LinkGrid>
-    );
+
+    let element: React.ReactElement;
+
+    if (variant === LinkVariants.GhostArrowRight) {
+      element = links[0];
+    } else {
+      element = (
+        <LinkGrid variant={this.properties.variant}>
+          {links}
+        </LinkGrid>
+      );
+    }
 
     ReactDom.render(element, this.domElement);
   }
@@ -120,13 +125,21 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
       }));
   }
 
+  protected getMaxFieldNumber(): number {
+    const { numberOfLinks = 0 } = this.properties;
+    const numberOfLinksVariant = this.properties.variant === LinkVariants.GhostArrowRight
+      ? 1 : numberOfLinks;
+
+    return +numberOfLinksVariant < 99 ? +numberOfLinksVariant : 99;
+  }
+
   /**
    * Generates a set of configuration fields for the config pane
    * @param numberOfLinks 
    * @returns IPropertyPaneField<unknown>[]
    */
   protected generateLinkConfigGroup(numberOfLinks: number): IPropertyPaneGroup[] {
-    return (new Array(+numberOfLinks).fill(1))
+    return (new Array(this.getMaxFieldNumber()).fill(1))
       .reduce((previous, _, index) => {
         const internalLinkFieldName = this._buildLinkPropName(index, LinkFieldVariant.InternalLink);
         const linkUrlName = this._buildLinkPropName(index, LinkFieldVariant.LinkUrl);
@@ -203,6 +216,14 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
    */
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     const isWhiteText = this._buildLinkPropName(0, LinkFieldVariant.LinkWhiteText);
+    const isMultiple = this.properties.variant !== LinkVariants.GhostArrowRight;
+    const numberOfLinksField = isMultiple ?
+      [
+        PropertyPaneTextField('numberOfLinks', {
+          label: strings.NumberOfLinks,
+        })
+      ]
+      : [];
 
     return {
       pages: [
@@ -210,9 +231,7 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
           groups: [
             {
               groupFields: [
-                PropertyPaneTextField('numberOfLinks', {
-                  label: strings.NumberOfLinks,
-                }),
+                ...numberOfLinksField,
                 PropertyPaneChoiceGroup('variant', {
                   label: strings.Variant,
                   options: this.generateVariantSelect(),

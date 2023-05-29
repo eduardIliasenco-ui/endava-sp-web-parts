@@ -23,7 +23,7 @@ export const background = [styles.link, styles['link--white-bg']].join(' ');
 
 export const ghostArrowLeft = styles.link;
 
-export const ghostArrowRight = ghostArrowLeft;
+export const ghostArrowRight = [styles.link, styles['link--small']].join(' ');
 
 export const verticalBlock = [styles.link, styles['link--block']].join(' ');
 
@@ -33,16 +33,18 @@ const rightArrow = [
     commonIconStyles['--font-size24']
 ].join(' ');
 
+const curlyArrow = [
+    iconStyles.icon,
+    iconStyles['icon-curly-arrow'],
+    commonIconStyles['--font-size24']
+].join(' ');
+
 export const VARIANT_BASED_ICON = {
     [LinkVariants.Bordered]: rightArrow,
-    [LinkVariants.Background]: rightArrow,
+    [LinkVariants.Background]: curlyArrow,
     [LinkVariants.GhostArrowRight]: rightArrow,
     [LinkVariants.VerticalBlock]: rightArrow,
-    [LinkVariants.GhostArrowLeft]: [
-        iconStyles.icon,
-        iconStyles['icon-curly-arrow'],
-        commonIconStyles['--font-size24']
-    ].join(' '),
+    [LinkVariants.GhostArrowLeft]: curlyArrow,
 };
 
 export const classNames: Record<LinkVariants, string> = {

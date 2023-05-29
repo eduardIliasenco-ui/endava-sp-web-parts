@@ -17,14 +17,17 @@ const Link = ({
     variant = LinkVariants.GhostArrowLeft,
 }: PropsWithChildren<ILinkProps>): ReactElement => {
     const elements = useMemo(() => {
-        const isIconLeft = !!(variant === LinkVariants.GhostArrowLeft
-            || variant === LinkVariants.Bordered);
+        const isIconLeft = !!(
+            variant === LinkVariants.Background
+            || variant === LinkVariants.GhostArrowLeft
+        );
         const elements = [
             (
                 <Text
                     fontWeight={TextWeight.Bold}
                     key={text || url}
                     isWhite={isWhiteText}
+                    maxLines={1}
                 >
                     {text || children || url}
                 </Text>
@@ -35,8 +38,11 @@ const Link = ({
         if (isIconLeft) return elements.reverse();
         return elements;
     }, [children, text, url, variant, isWhiteText, TargetOff]);
-    const className = isEdit ? `${classNames[variant]} ${styles['--no-action']}` : classNames[variant];
-    const classNameDisabled = (text || children) && url ? className : `${className} ${styles['--disabled']}`;
+    const className = isEdit
+        ? `${classNames[variant]} ${styles['--no-action']}`
+        : classNames[variant];
+    const classNameDisabled = (text || children) && url
+        ? className : `${className} ${styles['--disabled']}`;
 
     return (
         <a

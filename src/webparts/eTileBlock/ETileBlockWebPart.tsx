@@ -72,7 +72,7 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
         )
       })
 
-    const isIconText = this.properties.variant === TileVariant.IconText;
+    const isIconText = variant === TileVariant.ArrowedText;
     const columns = isIconText && this.properties[this._buildTilePropName(0, TileFieldVariant.IsThreeColumns)] ? 3 : 0;
     const element = (
       <TileGrid

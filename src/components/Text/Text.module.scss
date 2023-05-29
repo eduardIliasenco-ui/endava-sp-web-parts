@@ -26,7 +26,13 @@ span.styled-text {
         font-size: 14px;
         line-height: 20px;
 
+        &.styled-text--max-lines1 {
+            -webkit-line-clamp: 1;
+            line-clamp: 1;
+        }
+
         &.styled-text--max-lines2 {
+            -webkit-line-clamp: 2;
             line-clamp: 2;
         }
 

@@ -8,7 +8,7 @@ const IconSelect = ({ onSelect, children }: PropsWithChildren<IIconSelectProps>)
 
     return (
         <div
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', pointerEvents: 'all' }}
             tabIndex={0}
             onClick={!menuOpened && ((event) => {
                 event.preventDefault();
@@ -26,7 +26,11 @@ const IconSelect = ({ onSelect, children }: PropsWithChildren<IIconSelectProps>)
                             onSelect?.(value);
                             setMenuOpened(false);
                         }}
-                        onClose={() => setMenuOpened(false)}
+                        onClose={(event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            setMenuOpened(false);
+                        }}
                     />
                 )
             }

@@ -34,4 +34,7 @@ export const IconVariant = {
     IconWaypoint: iconStyles['icon-waypoint'],
     IconWorldWideVideo: iconStyles['icon-world-wide-video'],
     IconWorldWide: iconStyles['icon-world-wide'],
+    IconMan: iconStyles['icon-man'],
+    IconCalendar: iconStyles['icon-calendar'],
+    IconAirplane: iconStyles['icon-airplane'],
 }

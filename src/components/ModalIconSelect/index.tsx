@@ -4,6 +4,7 @@ import iconStyles from '../../icons/style.module.scss';
 import { IModalIconSelectProps } from './ModalIconSelect.types';
 import { IconVariant } from '../../icons/icons.constants';
 import { ReactElement } from 'react';
+import CloseButton from '../CloseButton';
 
 const ModalIconSelect = ({ onSelect, onClose }: IModalIconSelectProps): ReactElement => {
     const options = useMemo(() => {
@@ -30,7 +31,10 @@ const ModalIconSelect = ({ onSelect, onClose }: IModalIconSelectProps): ReactEle
     return (
         <section onClick={onClose} className={styles['modal-icon-select__wrapper']}>
             <section className={styles['modal-icon-select']}>
-                <h3>Select an icon</h3>
+                <div className={styles['modal-icon__header']}>
+                    <h3>Select an icon</h3>
+                    <CloseButton onClick={onClose} />
+                </div>
                 <div className={styles['modal-icon-select__inner']}>
                     {options}
                 </div>

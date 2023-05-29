@@ -1,0 +1,33 @@
+button.close-button {
+    position: relative;
+    all: unset;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    box-shadow: none;
+    transition: background-color 0.3s ease-out;
+
+    &::after,
+    &::before {
+        content: "";
+        position: absolute;
+        display: block;
+        top: 50%;
+        left: 50%;
+        width: 60%;
+        height: 2px;
+        background-color: #000;
+        transform-origin: 50% 50%;
+        transform: translateX(-50%) translateY(-50%) rotate(45deg);
+    }
+
+    &::after {
+        transform: translateX(-50%) translateY(-50%) rotate(-45deg);
+    }
+
+    &:hover,
+    &:focus,
+    &:focus-visible {
+        background-color: #f0f3f3;
+    }
+}
