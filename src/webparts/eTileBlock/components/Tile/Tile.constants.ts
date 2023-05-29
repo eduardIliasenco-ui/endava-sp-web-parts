@@ -13,7 +13,7 @@ export enum TileFieldVariant {
     TileUrl = 'tileUrl',
     TileLinkText = 'tileLinkUrl',
     ImageUrl = 'imageUrl',
-    IsExternalLink = 'isExternalLink',
+    IsInternalLink = 'isInternalLink',
     IsThreeColumns = 'isThreeColumns',
     Target = 'target',
     TileIcon = 'tileIcon',

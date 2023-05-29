@@ -6,7 +6,7 @@ define([], function() {
     ImageUrl: "Image URL",
     Target: "Open in current tab?",
     NumberOfTiles: "Number of cards",
-    ExternalLink: "External link",
+    InternalLink: "Internal link",
     URL: "Card URL",
     LinkURL: "Link URL",
     Variant: "Card style",

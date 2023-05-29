@@ -1,6 +1,6 @@
 {
   "name": "sp-component-solution",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "engines": {
     "node": ">=16.13.0 <17.0.0",
@@ -11,7 +11,8 @@
   "scripts": {
     "prepare:cert": "gulp trust-dev-cert",
     "prepare:dev": "yarn prepare:cert && yarn global add yo gulp",
-    "build:production": "gulp bundle && gulp package-solution",
+    "prebuild:production": "gulp clean",
+    "build:production": "gulp bundle --ship && gulp package-solution --ship",
     "build:dev": "gulp build",
     "start": "yarn build:dev && gulp serve",
     "add:webpart": "yo @microsoft/sharepoint",

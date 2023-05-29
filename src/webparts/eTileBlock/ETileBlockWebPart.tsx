@@ -162,7 +162,7 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
         const tileUrl = this._buildTilePropName(index, TileFieldVariant.TileUrl);
         const tileLinkText = this._buildTilePropName(index, TileFieldVariant.TileLinkText);
         const imageUrlName = this._buildTilePropName(index, TileFieldVariant.ImageUrl);
-        const isExternalLink = this._buildTilePropName(index, TileFieldVariant.IsExternalLink);
+        const isInternalLink = this._buildTilePropName(index, TileFieldVariant.IsInternalLink);
         const linkTarget = this._buildTilePropName(index, TileFieldVariant.Target);
         const tileTitle = this._buildTilePropName(index, TileFieldVariant.TileTitle);
         const isCardWithTitle = CARDS_WITH_TITLE.includes(this.properties.variant);
@@ -187,8 +187,8 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
         const isSite = !!this.sitePages?.length;
         const externalLinkCheckbox = isSite ?
           [
-            PropertyPaneCheckbox(isExternalLink, {
-              text: strings.ExternalLink,
+            PropertyPaneCheckbox(isInternalLink, {
+              text: strings.InternalLink,
               checked: false,
             })
           ]
@@ -201,7 +201,7 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
             offText: strings.No,
             checked: false,
           })];
-        const urlField = !this.properties[isExternalLink] && isSite ?
+        const urlField = this.properties[isInternalLink] && isSite ?
           [
             PropertyPaneDropdown(tileUrl, {
               label: isCartWithButton ? strings.LinkURL : strings.URL,

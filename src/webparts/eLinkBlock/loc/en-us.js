@@ -13,7 +13,7 @@ define([], function() {
     Variant: 'Link style',
     LinkGroupName: 'Link',
     CommonLinkConfig: 'Common Link config',
-    InternalSiteLink: 'Internal site link',
+    InternalSiteLink: 'Internal link',
     SectionDescription: 'Link set configuration',
     bordered: 'Outline button',
     background: 'Background button',

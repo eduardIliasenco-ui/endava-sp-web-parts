@@ -17,7 +17,7 @@ declare interface IETileBlockWebPartStrings {
   TargetOff: string;
   background: string;
   BlogPostCard: string;
-  ExternalLink: string;
+  InternalLink: string;
   NumberOfTiles: string;
   verticalBlock: string;
   TileGroupName: string;
