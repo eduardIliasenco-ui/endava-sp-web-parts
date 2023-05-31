@@ -98,7 +98,7 @@ const Tile = ({
             case TileVariant.TextAndButtonUnderCard:
                 return (
                     <>
-                        <div>
+                        <div className={styles['card--figure__inner']}>
                             <img className={styles['card-figiure-image']} src={imageUrl} alt="" />
 
                             <h6 className={`${styles['card-title']} ${styles['card-title--2lines']}`}>
