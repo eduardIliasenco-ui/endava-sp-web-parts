@@ -106,7 +106,7 @@ const Tile = ({
                             </h6>
 
                             <Text
-                                maxLines={4}
+                                maxLines={6}
                                 fontSize={16}
                                 fontWeight={TextWeight.Normal}
                             >

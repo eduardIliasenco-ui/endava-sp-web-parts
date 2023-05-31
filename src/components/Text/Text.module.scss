@@ -41,5 +41,10 @@ span.styled-text {
             line-clamp: 4;
         }
 
+        &.styled-text--max-lines6 {
+            -webkit-line-clamp: 6;
+            line-clamp: 6;
+        }
+
     }
 }

@@ -183,6 +183,10 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
           })] : [];
         const text = isCardWithText ? [PropertyPaneTextField(tileText, {
           label: strings.Text,
+          maxLength: 300,
+          multiline: true,
+          resizable: true,
+          rows: 4,
         })] : [];
         const isSite = !!this.sitePages?.length;
         const externalLinkCheckbox = isSite ?
@@ -278,6 +282,7 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
               groupFields: [
                 PropertyPaneTextField('numberOfTiles', {
                   label: strings.NumberOfTiles,
+                  maxLength: 2,
                 }),
                 PropertyPaneChoiceGroup('variant', {
                   label: strings.Variant,

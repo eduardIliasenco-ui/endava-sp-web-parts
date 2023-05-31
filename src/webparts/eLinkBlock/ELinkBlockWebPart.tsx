@@ -166,6 +166,7 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
             groupFields: [
               PropertyPaneTextField(this._buildLinkPropName(index), {
                 label: strings.Text,
+                maxLength: 300,
               }),
               isInternalLink && isSite ? PropertyPaneDropdown(linkUrlName, {
                 label: strings.URL,
@@ -221,6 +222,7 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
       [
         PropertyPaneTextField('numberOfLinks', {
           label: strings.NumberOfLinks,
+          maxLength: 2,
         })
       ]
       : [];
