@@ -7,16 +7,11 @@ import {
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'HeroWebPartStrings';
 import Hero from './components/Hero';
-
-export interface IHeroWebPartProps {
-  imageSrc: string;
-  title: string;
-  description: string;
-}
+import { IHeroWebPartProps } from './HeroWebPart.types';
 
 export default class HeroWebPart extends BaseClientSideWebPart<IHeroWebPartProps> {
   public render(): void {
-    const { imageSrc, title, description } = this.properties;
+    const { imageSrc, title, description, imagePositionX, imagePositionY } = this.properties;
 
     ReactDom.render(
       (
@@ -24,6 +19,8 @@ export default class HeroWebPart extends BaseClientSideWebPart<IHeroWebPartProps
           title={title}
           imageSrc={imageSrc}
           description={description}
+          imagePositionX={imagePositionX}
+          imagePositionY={imagePositionY}
         />
       )
       ,
@@ -50,6 +47,14 @@ export default class HeroWebPart extends BaseClientSideWebPart<IHeroWebPartProps
                 }),
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel,
+                }),
+                PropertyPaneTextField('imagePositionX', {
+                  label: strings.ImagePositionX,
+                  maxLength: 3,
+                }),
+                PropertyPaneTextField('imagePositionY', {
+                  label: strings.ImagePositionY,
+                  maxLength: 3,
                 }),
               ]
             }

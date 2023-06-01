@@ -2,10 +2,12 @@ import React, { ReactElement } from 'react';
 import { IHeroProps } from './Hero.types';
 import styles from './Hero.module.scss';
 
-const Hero = ({ imageSrc, title, description }: IHeroProps): ReactElement => (
+const Hero = ({ imageSrc, title, description, imagePositionX = 50, imagePositionY = 50 }: IHeroProps): ReactElement => (
   <header
     style={{
       backgroundImage: `url(${imageSrc})`,
+      backgroundPositionX: `${imagePositionX}%`,
+      backgroundPositionY: `${imagePositionY}%`,
     }}
     className={styles.hero}
   >

@@ -3,7 +3,7 @@
   "solution": {
     "name": "sp-component-solution-client-side-solution",
     "id": "32ee66ad-a355-4147-b248-7a7cf0ea7374",
-    "version": "1.0.2.4",
+    "version": "1.0.3.4",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
