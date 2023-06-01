@@ -51,6 +51,7 @@ const Link = ({
             href={url}
             rel={rel}
             target={target}
+            data-interception="off"
         >
             {elements}
         </a>

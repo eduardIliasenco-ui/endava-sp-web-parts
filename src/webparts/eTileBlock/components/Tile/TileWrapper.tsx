@@ -38,6 +38,7 @@ const TileWrapper = ({
                     tabIndex={0}
                     target={target}
                     className={classNameAnchorCard}
+                    data-interception="off"
                 >
                     {children}
                 </a>
