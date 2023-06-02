@@ -38,9 +38,10 @@ const Link = ({
         if (isIconLeft) return elements.reverse();
         return elements;
     }, [children, text, url, variant, isWhiteText, TargetOff]);
+    const darkStyle = isWhiteText ? styles['--dark'] : '';
     const className = isEdit
-        ? `${classNames[variant]} ${styles['--no-action']}`
-        : classNames[variant];
+        ? `${classNames[variant]} ${styles['--no-action']} ${darkStyle}`
+        : `${classNames[variant]} ${darkStyle}`;
     const classNameDisabled = (text || children) && url
         ? className : `${className} ${styles['--disabled']}`;
 

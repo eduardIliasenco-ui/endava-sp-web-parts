@@ -14,7 +14,7 @@
 - 'npm start'
 
 #### Issues
-- If you run `yarn start` and code changes are not applied - remove dist/, list/, release/ and run `yarn start` again
+- If you run `yarn start` and code changes are not applied - remove dist/, list/, release/ and run `yarn start` again. Or open https://localhost:4321/temp/manifests.js in your browser.
 
 ### File naming
 - Components - "PascalCase"

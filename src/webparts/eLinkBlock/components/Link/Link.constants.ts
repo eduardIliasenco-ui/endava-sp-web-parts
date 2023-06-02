@@ -23,7 +23,7 @@ export const background = [styles.link, styles['link--white-bg']].join(' ');
 
 export const ghostArrowLeft = styles.link;
 
-export const ghostArrowRight = [styles.link, styles['link--small']].join(' ');
+export const ghostArrowRight = [styles.link, styles['link--small'], styles['link--block']].join(' ');
 
 export const verticalBlock = [styles.link, styles['link--block']].join(' ');
 
