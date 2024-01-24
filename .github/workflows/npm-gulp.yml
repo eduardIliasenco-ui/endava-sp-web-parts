@@ -35,4 +35,4 @@ jobs:
         - uses: zattoo/publish@v1
           with:
             github_token: ${{github.token}}
-            sources: './sharepoint/solution/sp-component-solution.sppkg'
+            sources: './sharepoint/solution/*'
