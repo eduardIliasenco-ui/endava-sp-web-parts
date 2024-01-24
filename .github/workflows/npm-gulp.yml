@@ -32,7 +32,19 @@ jobs:
             gulp bundle --ship &>/dev/null && echo 0
             gulp package-solution --ship
         
-        - uses: zattoo/publish@v1
+        - name: Create Release
+          uses: actions/create-release@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
-            github_token: ${{github.token}}
-            sources: './sharepoint/solution/*'
+            tag_name: ${{ github.ref }}
+            release_name: Release ${{ github.ref }}
+
+        - name: Upload Release Asset
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: ./sharepoint/solution/sp-component-solution.sppkg
+            asset_name: sp-component-solution-${{ github.run_number }}.sppkg
