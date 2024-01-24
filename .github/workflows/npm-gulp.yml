@@ -12,7 +12,7 @@ jobs:
   
       strategy:
         matrix:
-          node-version: [18.17.0]
+          node-version: [16.13.0]
 
       steps:
         - uses: actions/checkout@v3
@@ -26,7 +26,7 @@ jobs:
           run: |
             npm install -g yarn@1.22.19
             yarn
-            yarn global add yo gulp
+            yarn global add yo@3.0.0 gulp@4.0.2
             gulp clean
             gulp trust-dev-cert
             gulp bundle --ship
