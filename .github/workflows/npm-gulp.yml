@@ -23,17 +23,16 @@ jobs:
             node-version: ${{ matrix.node-version }}
 
         - name: Build
-          continue-on-error: true
           run: |
             npm install -g yarn@1.22.19
             yarn
-            yarn global add yo@3.0.0 gulp@4.0.2
+            yarn global add gulp@4.0.2
             gulp clean
             gulp trust-dev-cert
             gulp bundle --ship
             gulp package-solution --ship
         
-        - uses: zattoo/publish@v1
-          with:
-            github_token: ${{github.token}}
-            sources: './sharepoint/solution/sp-component-solution.sppkg'
+        # - uses: zattoo/publish@v1
+        #   with:
+        #     github_token: ${{github.token}}
+        #     sources: './sharepoint/solution/sp-component-solution.sppkg'
