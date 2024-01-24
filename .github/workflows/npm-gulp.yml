@@ -26,10 +26,13 @@ jobs:
           run: |
             npm install -g yarn@1.22.19
             yarn
+            yarn global add yo gulp
+            gulp clean
+            gulp trust-dev-cert
             gulp bundle --ship
             gulp package-solution --ship
         
         - uses: zattoo/publish@v1
           with:
             github_token: ${{github.token}}
-            sources: './sharepoint/solution/'
+            sources: './sharepoint/solution/sp-component-solution.sppkg'
