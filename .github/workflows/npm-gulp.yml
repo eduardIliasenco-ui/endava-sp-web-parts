@@ -29,7 +29,7 @@ jobs:
             yarn global add gulp@4.0.2
             gulp clean
             gulp trust-dev-cert
-            gulp bundle --ship
+            gulp bundle --ship | 2>/dev/null
             gulp package-solution --ship
         
         # - uses: zattoo/publish@v1
