@@ -15,6 +15,7 @@ declare interface IETileBlockWebPartStrings {
   TextCard: string;
   ArrowCard: string;
   TargetOff: string;
+  RemoveCard: string;
   background: string;
   BlogPostCard: string;
   InternalLink: string;

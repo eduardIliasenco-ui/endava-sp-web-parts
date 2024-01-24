@@ -23,6 +23,7 @@ declare interface IELinkBlockWebPartStrings {
   WhiteText: string;
   Yes: string;
   No: string;
+  RemoveLink: string;
 }
 
 declare module 'ELinkBlockWebPartStrings' {

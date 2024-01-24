@@ -11,7 +11,8 @@ import {
   PropertyPaneDropdown,
   PropertyPaneHorizontalRule,
   PropertyPaneTextField,
-  PropertyPaneToggle
+  PropertyPaneToggle,
+  PropertyPaneButton,
 } from '@microsoft/sp-property-pane';
 import { update } from '@microsoft/sp-lodash-subset';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
@@ -151,6 +152,47 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
   }
 
   /**
+   * Removes a card from the list
+   * 
+   * @summary one of the uglyest (by the meaning) methods I've ever written. However, due to the limitations of the PropertyPane API, I had to do it this way. Don't blame me please.
+   * We can't store any data without having a field for it in the config panel. That's why we have to rely on the indexes and the number of cards..
+   * @param index index of the card to be removed
+   */
+  protected replacePropertiesFromIndex(index: number): void {
+    const numberOfTiles = +this.properties.numberOfTiles || 0;
+
+    for (let i = index; i < numberOfTiles; i++) {
+      const nextIndex = i + 1;
+      const tileText = this._buildTilePropName(i, TileFieldVariant.TileText);
+      const tileUrl = this._buildTilePropName(i, TileFieldVariant.TileUrl);
+      const tileLinkText = this._buildTilePropName(i, TileFieldVariant.TileLinkText);
+      const imageUrlName = this._buildTilePropName(i, TileFieldVariant.ImageUrl);
+      const isInternalLink = this._buildTilePropName(i, TileFieldVariant.IsInternalLink);
+      const linkTarget = this._buildTilePropName(i, TileFieldVariant.Target);
+      const tileTitle = this._buildTilePropName(i, TileFieldVariant.TileTitle);
+      const nextTileText = this._buildTilePropName(nextIndex, TileFieldVariant.TileText);
+      const nextTileUrl = this._buildTilePropName(nextIndex, TileFieldVariant.TileUrl);
+      const nextTileLinkText = this._buildTilePropName(nextIndex, TileFieldVariant.TileLinkText);
+      const nextImageUrlName = this._buildTilePropName(nextIndex, TileFieldVariant.ImageUrl);
+      const nextIsInternalLink = this._buildTilePropName(nextIndex, TileFieldVariant.IsInternalLink);
+      const nextLinkTarget = this._buildTilePropName(nextIndex, TileFieldVariant.Target);
+      const nextTileTitle = this._buildTilePropName(nextIndex, TileFieldVariant.TileTitle);
+
+      this.properties[tileText] = this.properties[nextTileText];
+      this.properties[tileUrl] = this.properties[nextTileUrl];
+      this.properties[tileLinkText] = this.properties[nextTileLinkText];
+      this.properties[imageUrlName] = this.properties[nextImageUrlName];
+      this.properties[isInternalLink] = this.properties[nextIsInternalLink];
+      this.properties[linkTarget] = this.properties[nextLinkTarget];
+      this.properties[tileTitle] = this.properties[nextTileTitle];
+    }
+
+    this.properties.numberOfTiles = `${numberOfTiles - 1}`;
+    this.render();
+  }
+
+
+  /**
    * Generates tile configuration field set
    * @param numberOfTiles 
    * @returns list of fields
@@ -234,6 +276,12 @@ export default class ETileBlockWebPart extends BaseClientSideWebPart<IETileBlock
               ...showUrl,
               ...externalLinkCheckbox,
               ...targetCheckbox,
+              PropertyPaneButton('delete', {
+                text: strings.RemoveCard,
+                buttonType: 1,
+                icon: 'Delete',
+                onClick: () => this.replacePropertiesFromIndex(index),
+              }),
               PropertyPaneHorizontalRule(),
             ],
           },

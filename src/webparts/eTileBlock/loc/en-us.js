@@ -26,5 +26,6 @@ define([], function() {
     ThreeColumnsLabel: 'Use it in 3 columns?',
     Yes: 'Yes',
     No: 'No',
+    RemoveCard: 'Remove',
   }
 });

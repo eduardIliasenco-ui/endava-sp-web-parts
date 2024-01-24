@@ -1,7 +1,9 @@
 # sp-component-solution
 
 [Tech notes](https://confluence.endava.com/pages/viewpage.action?pageId=250224798)
+
 ### Development
+
 - 'nvm install' 16.13.0
 - 'nvm alias default' 16.13.0
 - 'npm install yarn@1.22.19' - if not installed
@@ -14,18 +16,22 @@
 - 'npm start'
 
 #### Issues
+
 - If you run `yarn start` and code changes are not applied - remove dist/, list/, release/ and run `yarn start` again. Or open https://localhost:4321/temp/manifests.js in your browser.
 
 ### File naming
+
 - Components - "PascalCase"
 - Other files like utils, hekpers and so on - "kebab-case"
-- "*.constants.ts" - component related constants
-- "*.types.d.ts" - component related types and interfaces
-- "*.module.scss" - component related styles
+- "\*.constants.ts" - component related constants
+- "\*.types.d.ts" - component related types and interfaces
+- "\*.module.scss" - component related styles
 
 ### Icons
+
 'Stored in src/icons'
 Icons are generated with https://icomoon.io/app/#/select
+
 - Press "Import Icons"
 - Select icons from your computer
 - Press "Generate Font"
@@ -38,27 +44,37 @@ Note that icons.constants.ts contains all references to the icon class names. Us
 "common-icons.module.scss" contains all the custom styles related to the icons. Use this file to customize icons if it's needed.
 
 #### Common components
+
 'src/components' folder contains all the shared components between web parts.
+
 - IconSelect - is a block/wrapper that opens ModalIconSelect on click
 - ModalIconSelect - a modal window that contains a list of the icons (except arrows - for more details ask design team)
 - Text - text component that wraps text in "p" or in "span" (can be extended)
 
 #### API class
+
 'src/utils/API'
 API class consists of methods to retrieve data from the SH API or 3rd-parties.
+
 - GET getSitePages - this method retrieves site pages and caches them in a local storage. If pages were previously retrieved during the session, it'll pick them up from the cache.
 
 #### LocalStorage class
+
 'src/utils/LocalStorage'
 Implements localStorage functionality.
 
 ### Web Parts
+
+- Web Parts rely on indexes since there's no reliable way to store any data without having a field for it in the configuration pane.
+
 #### eLinkBlock
+
 [Hish-level documentation](https://confluence.endava.com/display/RP/Link+Block+configuration)
 'src/webparts/eLinkBlock'
 Is a component that imoplements Link Block functionality.
 
 'src/webparts/eLinkBlock/components'
+
 - Link - A single link component
 - LinkGrid - Grid wrapper for a link
 
@@ -67,7 +83,6 @@ Link related images
 
 'src/webparts/eLinkBlock/loc'
 Localisation related texts
-
 
 ## Summary
 

@@ -10,7 +10,8 @@ import {
   PropertyPaneDropdown,
   PropertyPaneHorizontalRule,
   PropertyPaneTextField,
-  PropertyPaneToggle
+  PropertyPaneToggle,
+  PropertyPaneButton,
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'ELinkBlockWebPartStrings';
@@ -134,6 +135,33 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
   }
 
   /**
+  * Removes a card from the list
+  * 
+  * @summary one of the uglyest (by the meaning) methods I've ever written. However, due to the limitations of the PropertyPane API, I had to do it this way. Don't blame me please.
+  * We can't store any data without having a field for it in the config panel. That's why we have to rely on the indexes and the number of cards..
+  * @param index index of the link to be removed
+  */
+  protected removeLinkByIndex(index: number): void {
+    const { numberOfLinks = 0 } = this.properties;
+
+    for (let i = index; i < +numberOfLinks - 1; i++) {
+      const text = this._buildLinkPropName(i);
+      const nextText = this._buildLinkPropName(i + 1);
+      const url = this._buildLinkPropName(i, LinkFieldVariant.LinkUrl);
+      const nextUrl = this._buildLinkPropName(i + 1, LinkFieldVariant.LinkUrl);
+      const target = this._buildLinkPropName(i, LinkFieldVariant.LinkTarget);
+      const nextTarget = this._buildLinkPropName(i + 1, LinkFieldVariant.LinkTarget);
+
+      this.properties[text] = this.properties[nextText];
+      this.properties[url] = this.properties[nextUrl];
+      this.properties[target] = this.properties[nextTarget];
+    }
+
+    this.properties.numberOfLinks = `${+this.properties.numberOfLinks - 1}`;
+    this.render();
+  }
+
+  /**
    * Generates a set of configuration fields for the config pane
    * @param numberOfLinks 
    * @returns IPropertyPaneField<unknown>[]
@@ -181,6 +209,12 @@ export default class ELinkBlockWebPart extends BaseClientSideWebPart<IELinkBlock
                 onText: strings.Yes,
                 offText: strings.No,
                 checked: false,
+              }),
+              PropertyPaneButton('removeLink', {
+                text: strings.RemoveLink,
+                buttonType: 1,
+                icon: 'Delete',
+                onClick: () => this.removeLinkByIndex(index),
               }),
               PropertyPaneHorizontalRule(),
             ]

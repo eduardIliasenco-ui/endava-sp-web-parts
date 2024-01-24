@@ -23,5 +23,6 @@ define([], function() {
     WhiteText: 'Make text white?',
     Yes: 'Yes',
     No: 'No',
+    RemoveLink: 'Remove',
   }
 });
